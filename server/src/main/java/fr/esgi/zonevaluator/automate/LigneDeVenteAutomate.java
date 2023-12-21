@@ -16,6 +16,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.stream.Stream;
 
 @Component
 @AllArgsConstructor
@@ -23,14 +24,20 @@ public class LigneDeVenteAutomate {
 
     private LigneDeVenteService ligneDeVenteService;
     private static final SimpleDateFormat simpleDateParser = new SimpleDateFormat("yyyy-MM-dd");
-    private static final int NOMBRE_LIGNES_A_IMPORTER = 1000;
+    private static final int NOMBRE_LIGNES_A_IMPORTER = 10;
+    private static int NOMBRE_DE_LIGNE_IMPORTES = 0;
+    private static boolean IMPORTATION_TERMINEE = false;
 
-    @Scheduled(fixedRate = 5 * 60 * 1000) // 5 minutes
+    @Scheduled(fixedRate = 10 * 1000) // 5 minutes
     private void importerLigneDeVente() {
+        if (IMPORTATION_TERMINEE) {
+            return;
+        }
+
         try {
             CSVRecord csvRecord = null;
 
-            File file = ResourceUtils.getFile("classpath:full.csv");
+            File file = ResourceUtils.getFile("classpath:full_a.csv");
             // Patron Decorator
             Reader reader = new InputStreamReader(new BufferedInputStream(new FileInputStream(file)));
 
@@ -39,6 +46,7 @@ public class LigneDeVenteAutomate {
             CSVFormat csvFormat = CSVFormat.newFormat(',').builder().setHeader().setSkipHeaderRecord(true).build();
 
             CSVParser csvParser = new CSVParser(reader, csvFormat);
+            skipLines(csvParser, NOMBRE_DE_LIGNE_IMPORTES);
 
             int nombreImportations = 0;
             // Pour chaque ligne du fichier CSV, on instancie un objet Ville
@@ -117,13 +125,25 @@ public class LigneDeVenteAutomate {
                 } catch (Exception e) {
                     System.out.println("Erreur lors de l'importation de la ligne de vente " + nombreImportations + " : " + e.getMessage());
                 }
-                System.out.println("Importation de la ligne de vente " + nombreImportations);
+                System.out.println("Importation de la ligne de vente " + (NOMBRE_DE_LIGNE_IMPORTES + nombreImportations));
                 nombreImportations++;
             }
             csvParser.close();
-
+            NOMBRE_DE_LIGNE_IMPORTES += nombreImportations;
+            if (NOMBRE_DE_LIGNE_IMPORTES >= csvParser.getRecordNumber()) {
+                IMPORTATION_TERMINEE = true;
+            }
         } catch (IOException | NumberFormatException e) {
             System.exit(-1);
         }
     }
+
+    private void skipLines(CSVParser csvParser, int nombreDeLigneASkipper) {
+        for (int i = 0; i < nombreDeLigneASkipper; i++) {
+            if (csvParser.iterator().hasNext()) {
+                csvParser.iterator().next();
+            }
+        }
+    }
+
 }
