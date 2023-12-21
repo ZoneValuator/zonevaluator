@@ -7,6 +7,8 @@ public interface PdfService {
 
     Pdf enregisterPdf();
 
+    Pdf recupererPdfById(Long pdfId);
+
     Document creerDocumentPdf(String pdfId, Float longitude, Float latitude);
 
     String enregisterPdfSurServeurDeFichier(Document pdf, String pdfId);

@@ -3,11 +3,13 @@ package fr.esgi.zonevaluator.service.impl;
 import fr.esgi.zonevaluator.business.LigneDeVente;
 import fr.esgi.zonevaluator.repository.LigneDeVenteRepository;
 import fr.esgi.zonevaluator.service.LigneDeVenteService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
+@AllArgsConstructor
 public class LigneDeVenteServiceImpl implements LigneDeVenteService {
 
     private LigneDeVenteRepository ligneDeVenteRepository;
@@ -22,13 +24,9 @@ public class LigneDeVenteServiceImpl implements LigneDeVenteService {
         return null;
     }
 
-    /**
-     * @param ligneDeVente 
-     * @return
-     */
+    @Override
     public LigneDeVente enregistrerLigneDeVente(LigneDeVente ligneDeVente) {
-        // TODO implement here
-        return null;
+        return ligneDeVenteRepository.save(ligneDeVente);
     }
 
 }

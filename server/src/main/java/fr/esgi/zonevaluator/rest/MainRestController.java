@@ -16,37 +16,26 @@ import java.util.*;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/pdf")
 @Validated
 public class MainRestController {
 
-    /**
-     * Default constructor
-     */
-    public MainRestController() {
-    }
-
-    /**
-     * 
-     */
     private PdfService pdfService;
 
-    @GetMapping("/{id}")
-    @Operation(description = "Récupération de l'état d'un pdf")
+    @GetMapping("getPdf/{id}")
+    @Operation(description = "Récupération de l'état d'un pdf à partir de son id")
     @ResponseStatus(HttpStatus.OK)
     @ApiResponse(responseCode = "200", description = "Pdf trouvé")
     @ApiResponse(responseCode = "404", description = "Pdf non trouvé")
     public Pdf getPdf(Long id) {
-        // TODO implement here
-        return null;
+        return pdfService.recupererPdfById(id);
     }
 
-    @PostMapping("")
+    @PostMapping("generatePdfByLocation")
     @Operation(description = "Création d'un pdf")
     @ResponseStatus(HttpStatus.CREATED)
-    @ApiResponse(responseCode = "201", description = "Pdf créé")
+    @ApiResponse(responseCode = "201", description = "Pdf créé retourne l'id du pdf qui sera utilisé pour récupérer l'état du pdf via l'endpoint /getPdf/{id}")
     @ApiResponse(responseCode = "400", description = "Pdf non créé")
-    public String generatePdfByLocation(Float latitude, Float longitude) {
+    public String generatePdfByLocation(@RequestParam("longitude") Float longitude, @RequestParam("latitude") Float latitude) {
         // Create pdf
         Pdf pdf = pdfService.enregisterPdf();
 
