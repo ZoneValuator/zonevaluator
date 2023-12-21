@@ -2,23 +2,23 @@
   <div class="container">
     <h1 class="green">Zone Valuator</h1>
 
-    <div>
-      <label>Longitude:</label>
-      <input type="text" class="form-control" id="longitude" v-model="longitude">
+    <div class="form__group field">
+      <input type="input" class="form__field" placeholder="Longitude" name="longitude" id='longitude' required />
+      <label for="longitude" class="form__label">Longitude</label>
+    </div>
+
+    <div class="form__group field">
+      <input type="input" class="form__field" placeholder="Latitude" name="latitude" id='latitude' required />
+      <label for="latitude" class="form__label">Latitude</label>
+    </div>
+
+    <div class="form__group field">
+      <input type="input" class="form__field" placeholder="Rayon" name="rayon" id='rayon' required />
+      <label for="rayon" class="form__label">Rayon</label>
     </div>
 
     <div>
-      <label>Latitude:</label>
-      <input type="text" class="form-control" id="latitude" v-model="latitude">
-    </div>
-
-    <div>
-      <label>Rayon:</label>
-      <input type="text" class="form-control" id="rayon" v-model="rayon">
-    </div>
-
-    <div>
-      <button class="btn btn-primary" @click="telechargerLignesVente">Télécharger les lignes de vente</button>
+      <button class="btn rounded-button" @click="telechargerLignesVente">Télécharger les lignes de vente</button>
     </div>
   </div>
 </template>
@@ -47,18 +47,85 @@ export default {
   width: 80%;
 }
 
-.label {
-  width: 50px;
-  text-align: left;
+.form__group {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 100%;
 }
 
-.form-group {
-  margin-bottom: 15px;
+.form__field {
+  font-family: inherit;
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid #9b9b9b;
+  outline: 0;
+  font-size: 1.3rem;
+  color: #fff;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+}
+.form__field::placeholder {
+  color: transparent;
+}
+.form__field:placeholder-shown ~ .form__label {
+  font-size: 1.3rem;
+  cursor: text;
+  top: 20px;
 }
 
-/* Styles pour le bouton */
-.btn {
-  padding: 10px 20px;
+.form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: #9b9b9b;
+}
+
+.form__field:focus {
+  padding-bottom: 6px;
+  font-weight: 700;
+  border-width: 3px;
+  border-image: linear-gradient(to right, #11998e, #38ef7d);
+  border-image-slice: 1;
+}
+.form__field:focus ~ .form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: #11998e;
+  font-weight: 700;
+}
+
+/* reset input */
+.form__field:required, .form__field:invalid {
+  box-shadow: none;
+}
+
+.rounded-button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  border: solid;
+  border-color: hsla(160, 100%, 37%, 1);
+  background-color: transparent;
+  color: black;
   font-size: 16px;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+}
+
+/* Style pour le hover */
+.rounded-button:hover {
+  background-color: hsla(160, 100%, 37%, 1);
+  color: white;
 }
 </style>
