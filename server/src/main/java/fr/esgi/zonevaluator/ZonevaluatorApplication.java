@@ -1,5 +1,7 @@
 package fr.esgi.zonevaluator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
@@ -20,6 +22,11 @@ import javax.jms.ConnectionFactory;
 @EnableScheduling
 @EnableJms
 public class ZonevaluatorApplication {
+
+	@Bean
+	public Logger logger() {
+		return LoggerFactory.getLogger(ZonevaluatorApplication.class);
+	}
 
 	@Bean
 	public JmsListenerContainerFactory<?> myFactory(ConnectionFactory connectionFactory,
