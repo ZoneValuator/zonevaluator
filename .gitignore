@@ -3,3 +3,4 @@
 *.iws
 *.iml
 *.ipr
+server/src/main/resources/full.csv
