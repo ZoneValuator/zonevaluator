@@ -1,6 +1,10 @@
 package fr.esgi.zonevaluator.rest;
 
+import fr.esgi.zonevaluator.business.GeneratePdfMessageQueue;
+import fr.esgi.zonevaluator.business.LigneDeVente;
 import fr.esgi.zonevaluator.business.Pdf;
+import fr.esgi.zonevaluator.exception.ParametreManquantException;
+import fr.esgi.zonevaluator.service.LigneDeVenteService;
 import fr.esgi.zonevaluator.service.PdfService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -12,9 +16,6 @@ import lombok.AllArgsConstructor;
 
 import java.util.*;
 
-/**
- * 
- */
 @RestController
 @AllArgsConstructor
 @Validated
@@ -33,22 +34,27 @@ public class MainRestController {
         return pdfService.recupererPdfById(id);
     }
 
-    @PostMapping("generatePdfByLocation")
+    @GetMapping("generatePdfByLocation")
     @Operation(description = "Création d'un pdf")
     @ResponseStatus(HttpStatus.CREATED)
     @ApiResponse(responseCode = "201", description = "Pdf créé retourne l'id du pdf qui sera utilisé pour récupérer l'état du pdf via l'endpoint /getPdf/{id}")
     @ApiResponse(responseCode = "400", description = "Pdf non créé")
-    public String generatePdfByLocation(@RequestParam(name = "longitude", required = true) Float longitude,
-                                        @RequestParam(name = "latitude", required = true) Float latitude,
-                                        @RequestParam(name = "rayon", required = true) Float rayon)
+    public String generatePdfByLocation(@RequestParam(name = "longitude", required = false) Float longitude,
+                                        @RequestParam(name = "latitude", required = false) Float latitude,
+                                        @RequestParam(name = "rayon", required = false) Float rayon)
     {
+        if (longitude == null || latitude == null || rayon == null) {
+            throw new ParametreManquantException("Les paramètres longitude, latitude et rayon sont obligatoires");
+        }
+
         // Create pdf
         Pdf pdf = pdfService.enregisterPdf();
 
         // Send message to queue
-        jmsTemplate.convertAndSend("generatePdf", "Hello");
+        jmsTemplate.convertAndSend("generatePdf",
+                new GeneratePdfMessageQueue(latitude, longitude, rayon, pdf.getId())
+        );
 
         return pdf.getId().toString();
     }
-
 }
