@@ -14,6 +14,7 @@ import io.minio.MinioClient;
 import io.minio.UploadObjectArgs;
 import io.minio.errors.MinioException;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -32,6 +33,10 @@ public class PdfServiceImpl implements PdfService {
 
     private final LigneDeVenteService ligneDeVenteService;
     private PdfRepository pdfRepository;
+
+    private final Logger logger;
+
+    private static final String BUCKET_NAME = "zonevaluator";
 
     @Override
     public Pdf enregisterPdf() {
@@ -82,25 +87,25 @@ public class PdfServiceImpl implements PdfService {
 
             // Make 'zonevaluator' bucket if not exist.
             boolean found =
-                    minioClient.bucketExists(BucketExistsArgs.builder().bucket("zonevaluator").build());
+                    minioClient.bucketExists(BucketExistsArgs.builder().bucket(BUCKET_NAME).build());
             if (!found) {
                 // Make a new bucket called 'zonevaluator'.
-                minioClient.makeBucket(MakeBucketArgs.builder().bucket("zonevaluator").build());
+                minioClient.makeBucket(MakeBucketArgs.builder().bucket(BUCKET_NAME).build());
             } else {
-                System.out.println("Bucket 'zonevaluator' already exists.");
+                logger.info("Le bucket {} existe déjà", BUCKET_NAME);
             }
 
             // Upload '/home/user/Photos/asiaphotos.zip' as object name 'asiaphotos-2015.zip' to bucket
             // 'zonevaluator'.
             minioClient.uploadObject(
                     UploadObjectArgs.builder()
-                            .bucket("zonevaluator")
+                            .bucket(BUCKET_NAME)
                             .object(pdfId + ".pdf")
                             .filename(pdf.getAbsolutePath())
                             .build());
         } catch (MinioException e) {
-            System.out.println("Error occurred: " + e);
-            System.out.println("HTTP trace: " + e.httpTrace());
+            logger.warn("Erreur lors de l'enregistrement du pdf sur le serveur de fichier : {}" , e.getMessage());
+            logger.warn("HTTP trace: {}" , e.httpTrace());
         }
         return "";
     }

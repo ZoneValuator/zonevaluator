@@ -27,7 +27,7 @@ public class LigneDeVenteServiceImpl implements LigneDeVenteService {
             float latitudeLigneDeVente = ligneDeVente.getLatitude();
             float longitudeLigneDeVente = ligneDeVente.getLongitude();
             // Calcul de la distance avec la formule de Haversine
-            double distance = haversine_distance(latitude, longitude, latitudeLigneDeVente, longitudeLigneDeVente);
+            double distance = haversineDistance(latitude, longitude, latitudeLigneDeVente, longitudeLigneDeVente);
             // Si la distance est inférieure ou égale au rayon, on ajoute la ligne de vente à la liste
             if (distance <= rayon) {
                 lignesDeVenteDansLeRayon.add(ligneDeVente);
@@ -37,7 +37,7 @@ public class LigneDeVenteServiceImpl implements LigneDeVenteService {
         return lignesDeVenteDansLeRayon;
     }
 
-    private Double haversine_distance(float lat1, float lng1, float lat2, float lng2) {
+    private Double haversineDistance(float lat1, float lng1, float lat2, float lng2) {
         // Calcul de la distance
         float radius = 6371f; // Rayon de la terre en km
         float dlat = deg2rad(lat2 - lat1);
