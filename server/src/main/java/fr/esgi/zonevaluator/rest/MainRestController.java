@@ -2,7 +2,8 @@ package fr.esgi.zonevaluator.rest;
 
 import fr.esgi.zonevaluator.business.GeneratePdfMessageQueue;
 import fr.esgi.zonevaluator.business.Pdf;
-import fr.esgi.zonevaluator.exception.ParametreManquantException;
+import fr.esgi.zonevaluator.exception.ParametreManquantInvalideException;
+import fr.esgi.zonevaluator.exception.PdfNonTrouveException;
 import fr.esgi.zonevaluator.service.PdfService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -26,20 +27,18 @@ public class MainRestController {
     @ApiResponse(responseCode = "404", description = "Pdf non trouvé")
     public Pdf getPdf(@PathVariable String id) {
         // Convert id to Long
-        Long idLong = null;
         try {
-            idLong = Long.parseLong(id);
+            long idLong = Long.parseLong(id);
+
+            Pdf pdf = pdfService.recupererPdfById(idLong);
+            if (pdf == null) {
+                throw new PdfNonTrouveException("Le pdf avec l'id " + id + " n'existe pas");
+            }
+
+            return pdf;
         } catch (NumberFormatException e) {
-            throw new ParametreManquantException("L'id du pdf doit être un nombre");
+            throw new ParametreManquantInvalideException("L'id doit être un nombre");
         }
-
-        Pdf pdf = pdfService.recupererPdfById(idLong);
-
-        if (pdf == null) {
-            throw new ParametreManquantException("Le pdf n'existe pas");
-        }
-
-        return pdf;
     }
 
     @GetMapping("generatePdfByLocation")
@@ -52,7 +51,7 @@ public class MainRestController {
                                         @RequestParam(name = "rayon", required = false) Float rayon)
     {
         if (longitude == null || latitude == null || rayon == null) {
-            throw new ParametreManquantException("Les paramètres longitude, latitude et rayon sont obligatoires");
+            throw new ParametreManquantInvalideException("Les paramètres longitude, latitude et rayon sont obligatoires");
         }
 
         // Create pdf
