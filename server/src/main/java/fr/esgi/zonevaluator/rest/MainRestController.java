@@ -1,28 +1,22 @@
 package fr.esgi.zonevaluator.rest;
 
 import fr.esgi.zonevaluator.business.GeneratePdfMessageQueue;
-import fr.esgi.zonevaluator.business.LigneDeVente;
 import fr.esgi.zonevaluator.business.Pdf;
 import fr.esgi.zonevaluator.exception.ParametreManquantException;
-import fr.esgi.zonevaluator.service.LigneDeVenteService;
 import fr.esgi.zonevaluator.service.PdfService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import lombok.AllArgsConstructor;
 
-import java.util.*;
-
 @RestController
 @AllArgsConstructor
-@Validated
 public class MainRestController {
 
-    private PdfService pdfService;
-    private JmsTemplate jmsTemplate;
+    private final PdfService pdfService;
+    private final JmsTemplate jmsTemplate;
 
 
     @GetMapping("getPdf/{id}")
@@ -30,8 +24,22 @@ public class MainRestController {
     @ResponseStatus(HttpStatus.OK)
     @ApiResponse(responseCode = "200", description = "Pdf trouvé")
     @ApiResponse(responseCode = "404", description = "Pdf non trouvé")
-    public Pdf getPdf(Long id) {
-        return pdfService.recupererPdfById(id);
+    public Pdf getPdf(@PathVariable String id) {
+        // Convert id to Long
+        Long idLong = null;
+        try {
+            idLong = Long.parseLong(id);
+        } catch (NumberFormatException e) {
+            throw new ParametreManquantException("L'id du pdf doit être un nombre");
+        }
+
+        Pdf pdf = pdfService.recupererPdfById(idLong);
+
+        if (pdf == null) {
+            throw new ParametreManquantException("Le pdf n'existe pas");
+        }
+
+        return pdf;
     }
 
     @GetMapping("generatePdfByLocation")
