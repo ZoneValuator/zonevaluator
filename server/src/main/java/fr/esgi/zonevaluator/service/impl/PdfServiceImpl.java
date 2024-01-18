@@ -19,7 +19,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -48,7 +47,7 @@ public class PdfServiceImpl implements PdfService {
     }
 
     @Override
-    public File creerPdf(Long pdfId, Float longitude, Float latitude, Float rayon) {
+    public File creerPdf(Long pdfId,Float latitude, Float longitude, Float rayon) {
         // Récupération des ligne de vente en fonction de la latitude, longitude et rayon
         List<LigneDeVente> lignesDeVente = ligneDeVenteService.recupererLignesDeVenteByLocation(
                 latitude,
@@ -56,16 +55,20 @@ public class PdfServiceImpl implements PdfService {
                 rayon
         );
 
-        // Ligne de vente to HashMap
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("lignesDeVente", lignesDeVente);
-
         File pdf = new File("D:\\" + pdfId + ".pdf");
         try {
             Document document = new Document();
             PdfWriter.getInstance(document, new FileOutputStream(pdf));
             document.open();
-            document.add(new Paragraph("Hello World!"));
+            document.add(new Paragraph("Ligne de vente"));
+            document.add(new Paragraph("Longitude : " + longitude));
+            document.add(new Paragraph("Latitude : " + latitude));
+            document.add(new Paragraph("Rayon : " + rayon));
+            document.add(new Paragraph("Nombre de lignes de vente : " + lignesDeVente.size()));
+            for (LigneDeVente ligneDeVente : lignesDeVente) {
+                document.add(new Paragraph(" "));
+                document.add(new Paragraph("Ligne de vente : " + ligneDeVente.toString()));
+            }
             document.close();
         } catch (Exception e) {
             e.printStackTrace();

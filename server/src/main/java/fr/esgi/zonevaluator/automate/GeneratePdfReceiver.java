@@ -18,8 +18,8 @@ public class GeneratePdfReceiver {
     public void receiveMessage(GeneratePdfMessageQueue generatePdfMessageQueue) {
         File pdf = pdfService.creerPdf(
                 generatePdfMessageQueue.getIdPdf(),
-                generatePdfMessageQueue.getLongitude(),
                 generatePdfMessageQueue.getLatitude(),
+                generatePdfMessageQueue.getLongitude(),
                 generatePdfMessageQueue.getRayon()
         );
 

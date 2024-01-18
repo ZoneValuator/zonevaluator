@@ -209,4 +209,27 @@ public class LigneDeVente {
     }
 
     private Float latitude;
+
+    @Override
+    public String toString() {
+        return  "idMutation='" + idMutation + '\'' +
+                ", dateMutation=" + dateMutation +
+                ", natureMutation='" + natureMutation + '\'' +
+                ", valeurFonciere=" + valeurFonciere +
+                ", adresseNumero=" + adresseNumero +
+                ", adresseSuffixe='" + adresseSuffixe + '\'' +
+                ", adresseNomVoie='" + adresseNomVoie + '\'' +
+                ", adresseCodeVoie='" + adresseCodeVoie + '\'' +
+                ", codePostal='" + codePostal + '\'' +
+                ", nomCommune='" + nomCommune + '\'' +
+                ", codeDepartement='" + codeDepartement + '\'' +
+                ", idParcelle='" + idParcelle + '\'' +
+                ", nombreLots=" + nombreLots +
+                ", typeLocal='" + typeLocal + '\'' +
+                ", surfaceReelleBati=" + surfaceReelleBati +
+                ", nombrePiecesPrincipales=" + nombrePiecesPrincipales +
+                ", surfaceTerrain=" + surfaceTerrain +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude ;
+    }
 }

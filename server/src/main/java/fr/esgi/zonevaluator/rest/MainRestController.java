@@ -46,8 +46,8 @@ public class MainRestController {
     @ResponseStatus(HttpStatus.CREATED)
     @ApiResponse(responseCode = "201", description = "Pdf créé retourne l'id du pdf qui sera utilisé pour récupérer l'état du pdf via l'endpoint /getPdf/{id}")
     @ApiResponse(responseCode = "400", description = "Pdf non créé")
-    public String generatePdfByLocation(@RequestParam(name = "longitude", required = false) Float longitude,
-                                        @RequestParam(name = "latitude", required = false) Float latitude,
+    public String generatePdfByLocation(@RequestParam(name = "latitude", required = false) Float latitude,
+                                        @RequestParam(name = "longitude", required = false) Float longitude,
                                         @RequestParam(name = "rayon", required = false) Float rayon)
     {
         if (longitude == null || latitude == null || rayon == null) {
