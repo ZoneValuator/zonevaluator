@@ -58,57 +58,57 @@ public class LigneDeVenteAutomate {
 
                 try {
                     LigneDeVente ligneDeVente = new LigneDeVente();
-                    ligneDeVente.setId_mutation(csvRecord.get("id_mutation"));
+                    ligneDeVente.setIdMutation(csvRecord.get("id_mutation"));
                     try {
-                        ligneDeVente.setDate_mutation(simpleDateParser.parse(csvRecord.get("date_mutation")));
+                        ligneDeVente.setDateMutation(simpleDateParser.parse(csvRecord.get("date_mutation")));
                     } catch (Exception e) {
                         logger.warn("Erreur lors de la conversion de la date" + e.getMessage());
-                        ligneDeVente.setDate_mutation(null);
+                        ligneDeVente.setDateMutation(null);
                     }
-                    ligneDeVente.setNature_mutation(csvRecord.get("nature_mutation"));
+                    ligneDeVente.setNatureMutation(csvRecord.get("nature_mutation"));
                     try {
-                        ligneDeVente.setValeur_fonciere(Integer.parseInt(csvRecord.get("valeur_fonciere")));
+                        ligneDeVente.setValeurFonciere(Integer.parseInt(csvRecord.get("valeur_fonciere")));
                     } catch (Exception e) {
                         logger.warn("Erreur lors de la conversion de la valeur foncière" + e.getMessage());
-                        ligneDeVente.setValeur_fonciere(0);
+                        ligneDeVente.setValeurFonciere(0);
                     }
                     try {
-                        ligneDeVente.setAdresse_numero(Integer.parseInt(csvRecord.get("adresse_numero")));
+                        ligneDeVente.setAdresseNumero(Integer.parseInt(csvRecord.get("adresse_numero")));
                     } catch (Exception e) {
                         logger.warn("Erreur lors de la conversion du numéro de l'adresse" + e.getMessage());
-                        ligneDeVente.setAdresse_numero(0);
+                        ligneDeVente.setAdresseNumero(0);
                     }
-                    ligneDeVente.setAdresse_suffixe(csvRecord.get("adresse_suffixe"));
-                    ligneDeVente.setAdresse_nom_voie(csvRecord.get("adresse_nom_voie"));
-                    ligneDeVente.setAdresse_code_voie(csvRecord.get("adresse_code_voie"));
-                    ligneDeVente.setCode_postal(csvRecord.get("code_postal"));
-                    ligneDeVente.setNom_commune(csvRecord.get("nom_commune"));
-                    ligneDeVente.setCode_departement(csvRecord.get("code_departement"));
-                    ligneDeVente.setId_parcelle(csvRecord.get("id_parcelle"));
+                    ligneDeVente.setAdresseSuffixe(csvRecord.get("adresse_suffixe"));
+                    ligneDeVente.setAdresseNomVoie(csvRecord.get("adresse_nom_voie"));
+                    ligneDeVente.setAdresseCodeVoie(csvRecord.get("adresse_code_voie"));
+                    ligneDeVente.setCodePostal(csvRecord.get("code_postal"));
+                    ligneDeVente.setNomCommune(csvRecord.get("nom_commune"));
+                    ligneDeVente.setCodeDepartement(csvRecord.get("code_departement"));
+                    ligneDeVente.setIdParcelle(csvRecord.get("id_parcelle"));
                     try {
-                        ligneDeVente.setNombre_lots(Integer.parseInt(csvRecord.get("nombre_lots")));
+                        ligneDeVente.setNombreLots(Integer.parseInt(csvRecord.get("nombre_lots")));
                     } catch (Exception e) {
                         logger.warn("Erreur lors de la conversion du nombre de lots" + e.getMessage());
-                        ligneDeVente.setNombre_lots(0);
+                        ligneDeVente.setNombreLots(0);
                     }
-                    ligneDeVente.setType_local(csvRecord.get("type_local"));
+                    ligneDeVente.setTypeLocal(csvRecord.get("type_local"));
                     try {
-                        ligneDeVente.setSurface_reelle_bati(Integer.parseInt(csvRecord.get("surface_reelle_bati")));
+                        ligneDeVente.setSurfaceReelleBati(Integer.parseInt(csvRecord.get("surface_reelle_bati")));
                     } catch (Exception e) {
                         logger.warn("Erreur lors de la conversion de la surface réelle bati" + e.getMessage());
-                        ligneDeVente.setSurface_reelle_bati(0);
+                        ligneDeVente.setSurfaceReelleBati(0);
                     }
                     try {
-                        ligneDeVente.setNombre_pieces_principales(Integer.parseInt(csvRecord.get("nombre_pieces_principales")));
+                        ligneDeVente.setNombrePiecesPrincipales(Integer.parseInt(csvRecord.get("nombre_pieces_principales")));
                     } catch (Exception e) {
                         logger.warn("Erreur lors de la conversion du nombre de pièces principales" + e.getMessage());
-                        ligneDeVente.setNombre_pieces_principales(0);
+                        ligneDeVente.setNombrePiecesPrincipales(0);
                     }
                     try {
-                        ligneDeVente.setSurface_terrain(Integer.parseInt(csvRecord.get("surface_terrain")));
+                        ligneDeVente.setSurfaceTerrain(Integer.parseInt(csvRecord.get("surface_terrain")));
                     } catch (Exception e) {
                         logger.warn("Erreur lors de la conversion de la surface terrain" + e.getMessage());
-                        ligneDeVente.setSurface_terrain(0);
+                        ligneDeVente.setSurfaceTerrain(0);
                     }
                     try {
                         ligneDeVente.setLongitude(Float.parseFloat(csvRecord.get("longitude")));

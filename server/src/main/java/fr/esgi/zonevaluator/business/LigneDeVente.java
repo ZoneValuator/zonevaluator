@@ -17,39 +17,39 @@ public class LigneDeVente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public String id_mutation;
+    private String idMutation;
 
-    private Date date_mutation;
+    private Date dateMutation;
 
-    private String nature_mutation;
+    private String natureMutation;
 
-    private int valeur_fonciere;
+    private int valeurFonciere;
 
-    private int adresse_numero;
+    private int adresseNumero;
 
-    private String adresse_suffixe;
+    private String adresseSuffixe;
 
-    private String adresse_nom_voie;
+    private String adresseNomVoie;
 
-    private String adresse_code_voie;
+    private String adresseCodeVoie;
 
-    private String code_postal;
+    private String codePostal;
 
-    private String nom_commune;
+    private String nomCommune;
 
-    private String code_departement;
+    private String codeDepartement;
 
-    private String id_parcelle;
+    private String idParcelle;
 
-    private int nombre_lots;
+    private int nombreLots;
 
-    private String type_local;
+    private String typeLocal;
 
-    private int surface_reelle_bati;
+    private int surfaceReelleBati;
 
-    private int nombre_pieces_principales;
+    private int nombrePiecesPrincipales;
 
-    private int surface_terrain;
+    private int surfaceTerrain;
 
     private Float longitude;
 
@@ -57,140 +57,140 @@ public class LigneDeVente {
         return id;
     }
 
-    public String getId_mutation() {
-        return id_mutation;
+    public String getIdMutation() {
+        return idMutation;
     }
 
-    public void setId_mutation(String id_mutation) {
-        this.id_mutation = id_mutation;
+    public void setIdMutation(String idMutation) {
+        this.idMutation = idMutation;
     }
 
-    public Date getDate_mutation() {
-        return date_mutation;
+    public Date getDateMutation() {
+        return dateMutation;
     }
 
-    public void setDate_mutation(Date date_mutation) {
-        this.date_mutation = date_mutation;
+    public void setDateMutation(Date dateMutation) {
+        this.dateMutation = dateMutation;
     }
 
-    public String getNature_mutation() {
-        return nature_mutation;
+    public String getNatureMutation() {
+        return natureMutation;
     }
 
-    public void setNature_mutation(String nature_mutation) {
-        this.nature_mutation = nature_mutation;
+    public void setNatureMutation(String natureMutation) {
+        this.natureMutation = natureMutation;
     }
 
-    public int getValeur_fonciere() {
-        return valeur_fonciere;
+    public int getValeurFonciere() {
+        return valeurFonciere;
     }
 
-    public void setValeur_fonciere(int valeur_fonciere) {
-        this.valeur_fonciere = valeur_fonciere;
+    public void setValeurFonciere(int valeurFonciere) {
+        this.valeurFonciere = valeurFonciere;
     }
 
-    public int getAdresse_numero() {
-        return adresse_numero;
+    public int getAdresseNumero() {
+        return adresseNumero;
     }
 
-    public void setAdresse_numero(int adresse_numero) {
-        this.adresse_numero = adresse_numero;
+    public void setAdresseNumero(int adresseNumero) {
+        this.adresseNumero = adresseNumero;
     }
 
-    public String getAdresse_suffixe() {
-        return adresse_suffixe;
+    public String getAdresseSuffixe() {
+        return adresseSuffixe;
     }
 
-    public void setAdresse_suffixe(String adresse_suffixe) {
-        this.adresse_suffixe = adresse_suffixe;
+    public void setAdresseSuffixe(String adresseSuffixe) {
+        this.adresseSuffixe = adresseSuffixe;
     }
 
-    public String getAdresse_nom_voie() {
-        return adresse_nom_voie;
+    public String getAdresseNomVoie() {
+        return adresseNomVoie;
     }
 
-    public void setAdresse_nom_voie(String adresse_nom_voie) {
-        this.adresse_nom_voie = adresse_nom_voie;
+    public void setAdresseNomVoie(String adresseNomVoie) {
+        this.adresseNomVoie = adresseNomVoie;
     }
 
-    public String getAdresse_code_voie() {
-        return adresse_code_voie;
+    public String getAdresseCodeVoie() {
+        return adresseCodeVoie;
     }
 
-    public void setAdresse_code_voie(String adresse_code_voie) {
-        this.adresse_code_voie = adresse_code_voie;
+    public void setAdresseCodeVoie(String adresseCodeVoie) {
+        this.adresseCodeVoie = adresseCodeVoie;
     }
 
-    public String getCode_postal() {
-        return code_postal;
+    public String getCodePostal() {
+        return codePostal;
     }
 
-    public void setCode_postal(String code_postal) {
-        this.code_postal = code_postal;
+    public void setCodePostal(String codePostal) {
+        this.codePostal = codePostal;
     }
 
-    public String getNom_commune() {
-        return nom_commune;
+    public String getNomCommune() {
+        return nomCommune;
     }
 
-    public void setNom_commune(String nom_commune) {
-        this.nom_commune = nom_commune;
+    public void setNomCommune(String nomCommune) {
+        this.nomCommune = nomCommune;
     }
 
-    public String getCode_departement() {
-        return code_departement;
+    public String getCodeDepartement() {
+        return codeDepartement;
     }
 
-    public void setCode_departement(String code_departement) {
-        this.code_departement = code_departement;
+    public void setCodeDepartement(String codeDepartement) {
+        this.codeDepartement = codeDepartement;
     }
 
-    public String getId_parcelle() {
-        return id_parcelle;
+    public String getIdParcelle() {
+        return idParcelle;
     }
 
-    public void setId_parcelle(String id_parcelle) {
-        this.id_parcelle = id_parcelle;
+    public void setIdParcelle(String idParcelle) {
+        this.idParcelle = idParcelle;
     }
 
-    public int getNombre_lots() {
-        return nombre_lots;
+    public int getNombreLots() {
+        return nombreLots;
     }
 
-    public void setNombre_lots(int nombre_lots) {
-        this.nombre_lots = nombre_lots;
+    public void setNombreLots(int nombreLots) {
+        this.nombreLots = nombreLots;
     }
 
-    public String getType_local() {
-        return type_local;
+    public String getTypeLocal() {
+        return typeLocal;
     }
 
-    public void setType_local(String type_local) {
-        this.type_local = type_local;
+    public void setTypeLocal(String typeLocal) {
+        this.typeLocal = typeLocal;
     }
 
-    public int getSurface_reelle_bati() {
-        return surface_reelle_bati;
+    public int getSurfaceReelleBati() {
+        return surfaceReelleBati;
     }
 
-    public void setSurface_reelle_bati(int surface_reelle_bati) {
-        this.surface_reelle_bati = surface_reelle_bati;
+    public void setSurfaceReelleBati(int surfaceReelleBati) {
+        this.surfaceReelleBati = surfaceReelleBati;
     }
 
-    public int getNombre_pieces_principales() {
-        return nombre_pieces_principales;
+    public int getNombrePiecesPrincipales() {
+        return nombrePiecesPrincipales;
     }
 
-    public void setNombre_pieces_principales(int nombre_pieces_principales) {
-        this.nombre_pieces_principales = nombre_pieces_principales;
+    public void setNombrePiecesPrincipales(int nombrePiecesPrincipales) {
+        this.nombrePiecesPrincipales = nombrePiecesPrincipales;
     }
 
-    public int getSurface_terrain() {
-        return surface_terrain;
+    public int getSurfaceTerrain() {
+        return surfaceTerrain;
     }
 
-    public void setSurface_terrain(int surface_terrain) {
-        this.surface_terrain = surface_terrain;
+    public void setSurfaceTerrain(int surfaceTerrain) {
+        this.surfaceTerrain = surfaceTerrain;
     }
 
     public Float getLongitude() {
