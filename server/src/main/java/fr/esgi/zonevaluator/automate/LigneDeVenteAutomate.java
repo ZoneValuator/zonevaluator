@@ -7,6 +7,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
@@ -18,12 +19,14 @@ import java.text.SimpleDateFormat;
 @AllArgsConstructor
 public class LigneDeVenteAutomate {
 
-    final Logger logger;
+    @Autowired
+    Logger logger;
+
     private LigneDeVenteService ligneDeVenteService;
     private static final SimpleDateFormat simpleDateParser = new SimpleDateFormat("yyyy-MM-dd");
     private static final int NOMBRE_LIGNES_A_IMPORTER = 100;
-    private int NOMBRE_DE_LIGNE_IMPORTES = 0;
-    private boolean IMPORTATION_TERMINEE = false;
+    private static int NOMBRE_DE_LIGNE_IMPORTES = 0;
+    private static boolean IMPORTATION_TERMINEE = false;
 
     @Scheduled(fixedRate = 5 * 60 * 1000) // 5 minutes
     private void importerLigneDeVente() {
