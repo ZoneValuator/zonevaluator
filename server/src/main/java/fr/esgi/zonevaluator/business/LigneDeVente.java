@@ -1,7 +1,6 @@
 package fr.esgi.zonevaluator.business;
 
 import lombok.Data;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +16,7 @@ public class LigneDeVente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String idMutation;
+    private String id_mutation;
 
     private Date dateMutation;
 

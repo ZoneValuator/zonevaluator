@@ -6,7 +6,7 @@ import java.util.*;
 
 public interface LigneDeVenteService {
 
-    List<LigneDeVente> recupererLignesDeVenteByLocation(Float latitude, Float longitude);
+    List<LigneDeVente> recupererLignesDeVenteByLocation(Float latitude, Float longitude, Float rayon);
 
     LigneDeVente enregistrerLigneDeVente(LigneDeVente ligneDeVente);
 

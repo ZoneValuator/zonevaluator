@@ -1,7 +1,10 @@
 package fr.esgi.zonevaluator.service;
 
-import com.itextpdf.text.Document;
 import fr.esgi.zonevaluator.business.Pdf;
+import java.io.File;
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 public interface PdfService {
 
@@ -9,8 +12,8 @@ public interface PdfService {
 
     Pdf recupererPdfById(Long pdfId);
 
-    Document creerDocumentPdf(String pdfId, Float longitude, Float latitude);
+    File creerPdf(Long pdfId, Float longitude, Float latitude, Float rayon);
 
-    String enregisterPdfSurServeurDeFichier(Document pdf, String pdfId);
+    String enregisterPdfSurServeurDeFichier(File pdf, String pdfId) throws IOException, NoSuchAlgorithmException, InvalidKeyException;
 
 }
