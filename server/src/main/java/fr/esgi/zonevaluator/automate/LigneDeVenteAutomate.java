@@ -22,9 +22,10 @@ public class LigneDeVenteAutomate {
 
     @Autowired
     Logger logger;
+
     private LigneDeVenteService ligneDeVenteService;
     private static final SimpleDateFormat simpleDateParser = new SimpleDateFormat("yyyy-MM-dd");
-    private static final int NOMBRE_LIGNES_A_IMPORTER = 100000;
+    private static final int NOMBRE_LIGNES_A_IMPORTER = 100;
     private static int NOMBRE_DE_LIGNE_IMPORTES = 0;
     private static boolean IMPORTATION_TERMINEE = false;
 

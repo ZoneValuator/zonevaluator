@@ -1,4 +1,4 @@
-name: ZoneValuator
+name: zonevaluator
 services:
   minio:
     ports:

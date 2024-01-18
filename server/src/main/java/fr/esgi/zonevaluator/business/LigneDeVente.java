@@ -16,7 +16,7 @@ public class LigneDeVente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String id_mutation;
+    private String idMutation;
 
     private Date dateMutation;
 
