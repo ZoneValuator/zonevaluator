@@ -1,0 +1,26 @@
+name: zonevaluator
+services:
+  minio:
+    ports:
+      - 9000:9000
+      - 9001:9001
+    container_name: minio
+    volumes:
+      - /data
+    environment:
+      - MINIO_ROOT_USER=ROOT
+      - MINIO_ROOT_PASSWORD=Test_1234
+    image: quay.io/minio/minio
+    command: server /data --console-address ":9001"
+  client:
+    build:
+      context: ./client/ZoneValuator
+    environment:
+      NODE_ENV: production
+    ports:
+      - 4173:4173
+  server:
+    build:
+      context: ./server
+    ports:
+      - 8080:8080
