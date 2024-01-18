@@ -47,6 +47,11 @@ public class PdfServiceImpl implements PdfService {
     }
 
     @Override
+    public Pdf modifierPdf(Pdf pdf) {
+        return pdfRepository.save(pdf);
+    }
+
+    @Override
     public File creerPdf(Long pdfId,Float latitude, Float longitude, Float rayon) {
         // Récupération des ligne de vente en fonction de la latitude, longitude et rayon
         List<LigneDeVente> lignesDeVente = ligneDeVenteService.recupererLignesDeVenteByLocation(

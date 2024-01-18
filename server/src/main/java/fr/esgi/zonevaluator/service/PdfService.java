@@ -12,6 +12,7 @@ public interface PdfService {
 
     Pdf recupererPdfById(Long pdfId);
 
+    Pdf modifierPdf(Pdf pdf);
     File creerPdf(Long pdfId, Float longitude, Float latitude, Float rayon);
 
     String enregisterPdfSurServeurDeFichier(File pdf, String pdfId) throws IOException, NoSuchAlgorithmException, InvalidKeyException;

@@ -19,4 +19,12 @@ public class Pdf {
 
     private String erreur;
 
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public void setErreur(String erreur) {
+        this.erreur = erreur;
+    }
+
 }
