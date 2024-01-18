@@ -8,10 +8,7 @@ import fr.esgi.zonevaluator.business.Pdf;
 import fr.esgi.zonevaluator.repository.PdfRepository;
 import fr.esgi.zonevaluator.service.LigneDeVenteService;
 import fr.esgi.zonevaluator.service.PdfService;
-import io.minio.BucketExistsArgs;
-import io.minio.MakeBucketArgs;
-import io.minio.MinioClient;
-import io.minio.UploadObjectArgs;
+import io.minio.*;
 import io.minio.errors.MinioException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -37,6 +34,8 @@ public class PdfServiceImpl implements PdfService {
     private final Logger logger;
 
     private static final String BUCKET_NAME = "zonevaluator";
+    private static final String BUCKET_URL = "http://localhost:9000";
+    private static final String BUCKET_POLICY = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetBucketLocation\",\"s3:ListBucket\",\"s3:ListBucketMultipartUploads\"],\"Resource\":[\"arn:aws:s3:::zonevaluator\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:AbortMultipartUpload\",\"s3:DeleteObject\",\"s3:GetObject\",\"s3:ListMultipartUploadParts\",\"s3:PutObject\"],\"Resource\":[\"arn:aws:s3:::zonevaluator/*\"]}]}";
 
     @Override
     public Pdf enregisterPdf() {
@@ -81,7 +80,7 @@ public class PdfServiceImpl implements PdfService {
             // Create a minioClient with the MinIO server playground, its access key and secret key.
             MinioClient minioClient =
                     MinioClient.builder()
-                            .endpoint("http://localhost:9000")
+                            .endpoint(BUCKET_URL)
                             .credentials("ROOT", "Test_1234")
                             .build();
 
@@ -91,23 +90,26 @@ public class PdfServiceImpl implements PdfService {
             if (!found) {
                 // Make a new bucket called 'zonevaluator'.
                 minioClient.makeBucket(MakeBucketArgs.builder().bucket(BUCKET_NAME).build());
+                // Set bucket policy to public
+                minioClient.setBucketPolicy(
+                        SetBucketPolicyArgs.builder().bucket(BUCKET_NAME).config(BUCKET_POLICY).build());
+
             } else {
                 logger.info("Le bucket {} existe déjà", BUCKET_NAME);
             }
 
-            // Upload '/home/user/Photos/asiaphotos.zip' as object name 'asiaphotos-2015.zip' to bucket
-            // 'zonevaluator'.
+            // Upload the pdf file to the bucket with putObject
             minioClient.uploadObject(
                     UploadObjectArgs.builder()
                             .bucket(BUCKET_NAME)
                             .object(pdfId + ".pdf")
                             .filename(pdf.getAbsolutePath())
-                            .build());
+                            .build()).etag();
         } catch (MinioException e) {
             logger.warn("Erreur lors de l'enregistrement du pdf sur le serveur de fichier : {}" , e.getMessage());
             logger.warn("HTTP trace: {}" , e.httpTrace());
         }
-        return "";
+        return BUCKET_URL + "/" + BUCKET_NAME + "/" + pdfId + ".pdf";
     }
 
 }
