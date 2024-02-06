@@ -1,29 +1,34 @@
 <template>
   <div class="container">
-    <h1 class="green">Zone Valuator</h1>
+    <div class="form">
+      <h1 class="green">Zone Valuator</h1>
 
-    <div class="form__group field">
-      <input type="input" class="form__field" placeholder="Longitude" name="longitude" id='longitude' required />
-      <label for="longitude" class="form__label">Longitude</label>
-    </div>
+      <div class="form__group field">
+        <input type="input" class="form__field" placeholder="Longitude" name="longitude" id='longitude' required />
+        <label for="longitude" class="form__label">Longitude</label>
+      </div>
 
-    <div class="form__group field">
-      <input type="input" class="form__field" placeholder="Latitude" name="latitude" id='latitude' required />
-      <label for="latitude" class="form__label">Latitude</label>
-    </div>
+      <div class="form__group field">
+        <input type="input" class="form__field" placeholder="Latitude" name="latitude" id='latitude' required />
+        <label for="latitude" class="form__label">Latitude</label>
+      </div>
 
-    <div class="form__group field">
-      <input type="input" class="form__field" placeholder="Rayon" name="rayon" id='rayon' required />
-      <label for="rayon" class="form__label">Rayon</label>
-    </div>
+      <div class="form__group field">
+        <input type="input" class="form__field" placeholder="Rayon" name="rayon" id='rayon' required />
+        <label for="rayon" class="form__label">Rayon</label>
+      </div>
 
-    <div>
-      <button class="btn rounded-button" @click="telechargerLignesVente">Télécharger les lignes de vente</button>
+      <div>
+        <button class="btn rounded-button" @click="telechargerLignesVente">Télécharger les lignes de vente</button>
+      </div>
+      <button @click="$emit('explode')">Show confetti</button>
     </div>
   </div>
 </template>
 
+<script setup>
 
+</script>
 <script>
 export default {
   data() {
@@ -44,8 +49,14 @@ export default {
 <style>
 /* Styles pour aligner verticalement les champs */
 .container {
-  width: 80%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
+
 
 .form__group {
   position: relative;
