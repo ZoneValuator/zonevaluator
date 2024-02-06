@@ -60,7 +60,8 @@ public class PdfServiceImpl implements PdfService {
                 rayon
         );
 
-        File pdf = new File("D:\\" + pdfId + ".pdf");
+        String tmpdir = System.getProperty("java.io.tmpdir");
+        File pdf = new File(tmpdir + pdfId + ".pdf");
         try {
             Document document = new Document();
             PdfWriter.getInstance(document, new FileOutputStream(pdf));
