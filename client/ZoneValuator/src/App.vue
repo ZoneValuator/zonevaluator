@@ -14,10 +14,11 @@ const explode = async () => {
 
 <template>
   <div style="width: 100%; height: 100vh; overflow-y: hidden; overflow-x: hidden;">
-
-    <ConfettiExplosion v-if="visible" :particleCount="5000" :particleSize="5" :stageWidth="2000" :force="1" :duration="10000"
+    <ConfettiExplosion v-if="visible" :particleCount="1000" :particleSize="5" :stageWidth="2000" :force="1" :duration="3000"
     :colors="['#00bd7e', '#06F98E', '#15FF00', '#00FFBA']"
-     style="margin-left:50%; width: 100%;"/>
+     style="margin-left:50%; width: 100%;"
+    />
+
     <HelloWorld @explode="explode"/>
   </div>
 </template>
