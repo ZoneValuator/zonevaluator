@@ -1,6 +1,5 @@
 package fr.esgi.zonevaluator.automate;
 
-import fr.esgi.zonevaluator.ZonevaluatorApplication;
 import fr.esgi.zonevaluator.business.LigneDeVente;
 import fr.esgi.zonevaluator.service.LigneDeVenteService;
 import lombok.AllArgsConstructor;
@@ -8,30 +7,28 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Component
 @AllArgsConstructor
 public class LigneDeVenteAutomate {
 
-    @Autowired
     Logger logger;
 
     private LigneDeVenteService ligneDeVenteService;
-    private static final SimpleDateFormat simpleDateParser = new SimpleDateFormat("yyyy-MM-dd");
     private static final int NOMBRE_LIGNES_A_IMPORTER = 100;
-    private static int NOMBRE_DE_LIGNE_IMPORTES = 0;
-    private static boolean IMPORTATION_TERMINEE = false;
+    private int nombreDeLigneImportees = 0;
+    private boolean importationTermines = false;
 
     @Scheduled(fixedRate = 5 * 60 * 1000) // 5 minutes
     private void importerLigneDeVente() {
-        if (IMPORTATION_TERMINEE) {
+        if (importationTermines) {
             return;
         }
 
@@ -49,7 +46,7 @@ public class LigneDeVenteAutomate {
             CSVFormat csvFormat = CSVFormat.newFormat(',').builder().setHeader().setSkipHeaderRecord(true).build();
 
             CSVParser csvParser = new CSVParser(reader, csvFormat);
-            skipLines(csvParser, NOMBRE_DE_LIGNE_IMPORTES);
+            skipLines(csvParser, nombreDeLigneImportees);
 
             int nombreImportations = 0;
             // Pour chaque ligne du fichier CSV, on instancie un objet Ville
@@ -58,27 +55,14 @@ public class LigneDeVenteAutomate {
                 csvRecord = csvParser.iterator().next();
 
                 try {
+
                     LigneDeVente ligneDeVente = new LigneDeVente();
+
                     ligneDeVente.setIdMutation(csvRecord.get("id_mutation"));
-                    try {
-                        ligneDeVente.setDateMutation(simpleDateParser.parse(csvRecord.get("date_mutation")));
-                    } catch (Exception e) {
-                        logger.warn("Erreur lors de la conversion de la date" + e.getMessage());
-                        ligneDeVente.setDateMutation(null);
-                    }
+                    ligneDeVente.setDateMutation(parseDate(csvRecord.get("date_mutation")));
                     ligneDeVente.setNatureMutation(csvRecord.get("nature_mutation"));
-                    try {
-                        ligneDeVente.setValeurFonciere(Integer.parseInt(csvRecord.get("valeur_fonciere")));
-                    } catch (Exception e) {
-                        logger.warn("Erreur lors de la conversion de la valeur foncière" + e.getMessage());
-                        ligneDeVente.setValeurFonciere(0);
-                    }
-                    try {
-                        ligneDeVente.setAdresseNumero(Integer.parseInt(csvRecord.get("adresse_numero")));
-                    } catch (Exception e) {
-                        logger.warn("Erreur lors de la conversion du numéro de l'adresse" + e.getMessage());
-                        ligneDeVente.setAdresseNumero(0);
-                    }
+                    ligneDeVente.setValeurFonciere(parseInteger(csvRecord.get("valeur_fonciere")));
+                    ligneDeVente.setAdresseNumero(parseInteger(csvRecord.get("adresse_numero")));
                     ligneDeVente.setAdresseSuffixe(csvRecord.get("adresse_suffixe"));
                     ligneDeVente.setAdresseNomVoie(csvRecord.get("adresse_nom_voie"));
                     ligneDeVente.setAdresseCodeVoie(csvRecord.get("adresse_code_voie"));
@@ -86,58 +70,28 @@ public class LigneDeVenteAutomate {
                     ligneDeVente.setNomCommune(csvRecord.get("nom_commune"));
                     ligneDeVente.setCodeDepartement(csvRecord.get("code_departement"));
                     ligneDeVente.setIdParcelle(csvRecord.get("id_parcelle"));
-                    try {
-                        ligneDeVente.setNombreLots(Integer.parseInt(csvRecord.get("nombre_lots")));
-                    } catch (Exception e) {
-                        logger.warn("Erreur lors de la conversion du nombre de lots" + e.getMessage());
-                        ligneDeVente.setNombreLots(0);
-                    }
+                    ligneDeVente.setNombreLots(parseInteger(csvRecord.get("nombre_lots")));
                     ligneDeVente.setTypeLocal(csvRecord.get("type_local"));
-                    try {
-                        ligneDeVente.setSurfaceReelleBati(Integer.parseInt(csvRecord.get("surface_reelle_bati")));
-                    } catch (Exception e) {
-                        logger.warn("Erreur lors de la conversion de la surface réelle bati" + e.getMessage());
-                        ligneDeVente.setSurfaceReelleBati(0);
-                    }
-                    try {
-                        ligneDeVente.setNombrePiecesPrincipales(Integer.parseInt(csvRecord.get("nombre_pieces_principales")));
-                    } catch (Exception e) {
-                        logger.warn("Erreur lors de la conversion du nombre de pièces principales" + e.getMessage());
-                        ligneDeVente.setNombrePiecesPrincipales(0);
-                    }
-                    try {
-                        ligneDeVente.setSurfaceTerrain(Integer.parseInt(csvRecord.get("surface_terrain")));
-                    } catch (Exception e) {
-                        logger.warn("Erreur lors de la conversion de la surface terrain" + e.getMessage());
-                        ligneDeVente.setSurfaceTerrain(0);
-                    }
-                    try {
-                        ligneDeVente.setLongitude(Float.parseFloat(csvRecord.get("longitude")));
-                    } catch (Exception e) {
-                        logger.warn("Erreur lors de la conversion de la longitude" + e.getMessage());
-                        ligneDeVente.setLongitude(0f);
-                    }
-                    try {
-                        ligneDeVente.setLatitude(Float.parseFloat(csvRecord.get("latitude")));
-                    } catch (Exception e) {
-                        logger.warn("Erreur lors de la conversion de la latitude" + e.getMessage());
-                        ligneDeVente.setLatitude(0f);
-                    }
+                    ligneDeVente.setSurfaceReelleBati(parseInteger(csvRecord.get("surface_reelle_bati")));
+                    ligneDeVente.setNombrePiecesPrincipales(parseInteger(csvRecord.get("nombre_pieces_principales")));
+                    ligneDeVente.setSurfaceTerrain(parseInteger(csvRecord.get("surface_terrain")));
+                    ligneDeVente.setLongitude(parseFloat(csvRecord.get("longitude")));
+                    ligneDeVente.setLatitude(parseFloat(csvRecord.get("latitude")));
 
                     ligneDeVenteService.enregistrerLigneDeVente(ligneDeVente);
                 } catch (Exception e) {
-                    logger.warn("Erreur lors de l'importation de la ligne de vente " + nombreImportations + " : " + e.getMessage());
+                    logger.warn("Erreur lors de l'importation de la ligne de vente {} : {}", nombreImportations, e.getMessage());
                 }
-                logger.info("Importation de la ligne de vente " + (NOMBRE_DE_LIGNE_IMPORTES + nombreImportations));
+                logger.info("Importation de la ligne de vente {}", (nombreDeLigneImportees + nombreImportations));
                 nombreImportations++;
             }
             csvParser.close();
-            NOMBRE_DE_LIGNE_IMPORTES += nombreImportations;
-            if (NOMBRE_DE_LIGNE_IMPORTES >= csvParser.getRecordNumber()) {
-                IMPORTATION_TERMINEE = true;
+            nombreDeLigneImportees += nombreImportations;
+            if (nombreDeLigneImportees >= csvParser.getRecordNumber()) {
+                importationTermines = true;
             }
         } catch (Exception e) {
-            logger.warn("Erreur lors de l'importation des lignes de vente : " + e.getMessage());
+            logger.warn("Erreur lors de l'importation des lignes de vente : {}", e.getMessage());
         }
     }
 
@@ -149,4 +103,28 @@ public class LigneDeVenteAutomate {
         }
     }
 
+    private Integer parseInteger(String value) {
+        try {
+            return Integer.parseInt(value);
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    private Float parseFloat(String value) {
+        try {
+            return Float.parseFloat(value);
+        } catch (Exception e) {
+            return 0f;
+        }
+    }
+
+    private Date parseDate(String value) {
+        SimpleDateFormat simpleDateParser = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            return simpleDateParser.parse(value);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }
