@@ -20,11 +20,11 @@ import java.util.Date;
 public class LigneDeVenteAutomate {
 
     Logger logger;
-
     private LigneDeVenteService ligneDeVenteService;
+
     private static final int NOMBRE_LIGNES_A_IMPORTER = 100;
-    private int nombreDeLigneImportees = 0;
-    private boolean importationTermines = false;
+    private static int nombreDeLigneImportees = 0;
+    private static boolean importationTermines = false;
 
     @Scheduled(fixedRate = 5 * 60 * 1000) // 5 minutes
     private void importerLigneDeVente() {
