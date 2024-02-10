@@ -16,6 +16,7 @@ Le back-end est disponible dans le /server/ du projet. \
 - Docker
 
 #### Lancement
+Vérifier les configurations [ici](#problèmes-connus)
 
 ```bash
 📁zonevaluator/> docker-compose -f docker-compose-full.yml up
@@ -56,6 +57,10 @@ Back-end : http://localhost:8080
 
 ### Problèmes connus
 
-⚠️Vérifier ligne 36 dans PdfServiceImp.java que le chemin vers le serveur de fichier est correct. \
+⚠️Vérifier ligne 36 dans PdfServiceImp.java que l'url du serveur de fichier est correct. \
 URL sous docker: http://minio:9000 \
-URL en local: http://localhost:9000
+URL en développement: http://localhost:9000
+
+⚠️Vérifier ligne 51 et 75 dans HelloWord.vue que l'url du back-end est correct. \
+URL sous docker: http://server-1:8080 \
+URL en développement: http://localhost:8080
